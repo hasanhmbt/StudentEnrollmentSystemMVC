@@ -12,6 +12,7 @@ public class StudentsController : Controller
     public StudentsController(SchoolContext context)
     {
         _context = context;
+
     }
 
     public async Task<IActionResult> Index()
@@ -73,7 +74,12 @@ public class StudentsController : Controller
     {
         var student = await _context.Students.FindAsync(id);
         if (student == null) return NotFound();
-        return View(student);
+
+        _context.Students.Remove(student);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+
     }
 
 

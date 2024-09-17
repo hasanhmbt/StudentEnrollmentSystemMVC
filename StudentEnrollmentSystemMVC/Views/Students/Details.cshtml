@@ -1,18 +1,37 @@
 ﻿@model Student
 
-<h2>Student Details</h2>
+<div class="container mt-4">
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <h2 class="m-0 font-weight-bold text-primary">Student Details</h2>
+        </div>
+        <div class="card-body">
+            <p><strong>Name:</strong> @Model.Name</p>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Enrollment Date:</strong> @Model.EnrollmentDate.ToString("MM/dd/yyyy")</p>
 
-<p><strong>Name:</strong> @Model.Name</p>
-<p><strong>Email:</strong> @Model.Email</p>
-<p><strong>Enrollment Date:</strong> @Model.EnrollmentDate.ToShortDateString()</p>
-
-<h4>Courses Enrolled</h4>
-<ul>
-    @foreach (var enrollment in Model.Enrollments)
-    {
-        <li>@enrollment.Course.Title</li>
-    }
-</ul>
-
-<a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning">Edit</a>
-<a href="@Url.Action("Index")" class="btn btn-secondary">Back to List</a>
+            <h4>Courses Enrolled</h4>
+            @if (Model.Enrollments != null && Model.Enrollments.Any())
+            {
+                <ul>
+                    @foreach (var enrollment in Model.Enrollments)
+                    {
+                        <li>@enrollment.Course.Title</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No courses enrolled.</p>
+            }
+        </div>
+        <div class="card-footer">
+            <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>
