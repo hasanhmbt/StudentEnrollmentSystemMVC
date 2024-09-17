@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentEnrollmentSystemMVC.Data;
 using StudentEnrollmentSystemMVC.Models;
 
 namespace StudentEnrollmentSystemMVC.Controllers;
-
+[Authorize]
 public class StudentsController : Controller
 {
     private readonly SchoolContext _context;

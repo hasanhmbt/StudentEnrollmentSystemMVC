@@ -1,8 +1,8 @@
-﻿@model LoginViewModel
+﻿@model RegisterViewModel
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Register";
 }
-<form asp-action="Login" asp-controller="Account">
+<form asp-action="Register" asp-controller="Account">
     <div class="form-group">
         <label asp-for="Email"></label>
         <input asp-for="Email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
@@ -12,9 +12,10 @@
         <label asp-for="Password"></label>
         <input asp-for="Password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
     </div>
-    <div class="form-group form-check">
-        <input asp-for="RememberMe" type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" asp-for="RememberMe" ></label>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="Confirm password">
     </div>
-    <button type="submit" class="btn btn-primary">Login</button>
+    
+    <button type="submit" class="btn btn-primary">Register</button>
 </form>
