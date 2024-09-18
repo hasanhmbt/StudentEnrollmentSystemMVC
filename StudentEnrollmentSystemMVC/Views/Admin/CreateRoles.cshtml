@@ -1,0 +1,27 @@
+﻿@model Tuple<List<ApplicationUser>, List<IdentityRole>>
+
+<h2>Assign Roles to Users</h2>
+
+<form asp-action="CreateRoles" method="post">
+    <div class="form-group">
+        <label for="users">Select User</label>
+        <select name="userId" id="users" class="form-control">
+            @foreach (var user in Model.Item1)
+            {
+                <option value="@user.Id">@user.Email</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="roles">Select Role</label>
+        <select name="roleId" id="roles" class="form-control">
+            @foreach (var role in Model.Item2)
+            {
+                <option value="@role.Id">@role.Name</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Assign Role</button>
+</form>

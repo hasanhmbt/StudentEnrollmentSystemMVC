@@ -17,6 +17,7 @@ namespace StudentEnrollmentSystemMVC.Controllers
         // GET: Enrollments/Enroll/5
         public async Task<IActionResult> Enroll(int id)
         {
+            ViewBag.Students = await _context.Students.ToListAsync();
             var enrollment = await GetEnrollmentByIdAsync(id);
             if (enrollment == null)
             {
