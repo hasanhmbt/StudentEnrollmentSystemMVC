@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace StudentEnrollmentSystemMVC.Models;
+namespace StudentEnrollmentSystemMVC.Models.ViewModels;
 
 public class RegisterViewModel
 {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StudentEnrollmentSystemMVC.Models;
+using StudentEnrollmentSystemMVC.Models.ViewModels;
 
 namespace StudentEnrollmentSystemMVC.Controllers
 {
@@ -91,7 +92,10 @@ namespace StudentEnrollmentSystemMVC.Controllers
 
 
 
-
+        public IActionResult ForbiddenPage()
+        {
+            return View();
+        }
 
 
 

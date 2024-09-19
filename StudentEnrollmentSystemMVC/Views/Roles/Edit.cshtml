@@ -1,0 +1,35 @@
+﻿@model RolesViewModel
+
+@{
+    ViewData["Title"] = "Edit Role";
+}
+
+<div class="container mt-4">
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <h2 class="m-0 font-weight-bold text-primary">Edit Role</h2>
+        </div>
+        <div class="card-body">
+            <form asp-controller="Roles" asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" aria-label="Role Name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" aria-label="Save Changes">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary" aria-label="Back to Course List">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

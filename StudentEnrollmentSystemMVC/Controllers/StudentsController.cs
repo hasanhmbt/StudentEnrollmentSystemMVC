@@ -5,7 +5,7 @@ using StudentEnrollmentSystemMVC.Data;
 using StudentEnrollmentSystemMVC.Models;
 
 namespace StudentEnrollmentSystemMVC.Controllers;
-[Authorize]
+[Authorize(Roles = ("Admin,Teacher"))]
 public class StudentsController : Controller
 {
     private readonly SchoolContext _context;
