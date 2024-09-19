@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentEnrollmentSystemMVC.Models;
@@ -6,6 +7,7 @@ using StudentEnrollmentSystemMVC.Models.ViewModels;
 
 namespace StudentEnrollmentSystemMVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -92,12 +94,13 @@ namespace StudentEnrollmentSystemMVC.Controllers
                 Id = user.Id,
                 Email = user.Email,
                 UserName = user.UserName,
-                Roles = roles,
-                UserRoles = userRoles.ToList()
+                Roles = roles ?? new List<string>(),
+                UserRoles = userRoles.ToList() ?? new List<string>()
             };
 
             return View(model);
         }
+
 
 
 
@@ -108,7 +111,6 @@ namespace StudentEnrollmentSystemMVC.Controllers
             if (!ModelState.IsValid)
             {
                 model.Roles = _roleManager.Roles.Select(r => r.Name).ToList();
-                return View(model);
             }
 
             var user = await _userManager.FindByIdAsync(model.Id);
@@ -128,7 +130,6 @@ namespace StudentEnrollmentSystemMVC.Controllers
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
                 model.Roles = _roleManager.Roles.Select(r => r.Name).ToList();
-                return View(model);
             }
 
             var userRoles = await _userManager.GetRolesAsync(user);
@@ -145,7 +146,7 @@ namespace StudentEnrollmentSystemMVC.Controllers
                 await _userManager.AddToRolesAsync(user, rolesToAdd);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Admin");
         }
 
 

@@ -38,11 +38,23 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Error/AccessDenied";
+});
 
 
 
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
+
+app.UseStatusCodePages(async context =>
+{
+    if (context.HttpContext.Response.StatusCode == 403)
+    {
+        context.HttpContext.Response.Redirect("/Error/AccessDenied");
+    }
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

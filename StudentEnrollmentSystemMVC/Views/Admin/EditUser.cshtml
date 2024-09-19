@@ -1,37 +1,81 @@
 ﻿@model EditUserViewModel
 
-<h2>Edit User</h2>
+@{
+    ViewData["Title"] = "Edit User";
+}
 
-<form asp-action="EditUser" method="post">
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+<div class="container mt-4">
+    <div class="card shadow mb-4">
+        <div class="card-header">
+            <h2 class="m-0 font-weight-bold text-primary">Edit User</h2>
+        </div>
+        <div class="card-body">
+            <form asp-action="EditUser" method="post" id="editUserForm">
+                <input type="hidden" asp-for="Id" />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" aria-label="User Email" placeholder="Enter email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input asp-for="UserName" class="form-control" aria-label="Username" placeholder="Enter username" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label class="control-label">Roles</label>
+                    @if (Model.Roles != null && Model.Roles.Any())
+                    {
+                        <div class="row">
+                            @foreach (var role in Model.Roles)
+                            {
+                                <div class="col-md-4 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="selectedRoles" value="@role"
+                                        @(Model.UserRoles.Contains(role) ? "checked" : "") aria-label="Role @role" />
+                                        <label class="form-check-label">@role</label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-warning">No roles available</p>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" aria-label="Save Changes">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary" aria-label="Back to User List">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="UserName"></label>
-        <input asp-for="UserName" class="form-control" />
-        <span asp-validation-for="UserName" class="text-danger"></span>
-    </div>
-
-    <input type="hidden" asp-for="Id" />
-
-    <div class="form-group">
-        <label>Roles</label>
-        @foreach (var role in Model.Roles)
-        {
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="selectedRoles" value="@role"
-                @(Model.UserRoles.Contains(role) ? "checked" : "") />
-                <label class="form-check-label">@role</label>
-            </div>
-        }
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save</button>
-</form>
+</div>
 
 @section js {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.getElementById("editUserForm").addEventListener("submit", function() {
+            var submitBtn = document.querySelector("button[type='submit']");
+            var spinner = document.createElement("span");
+            spinner.classList.add("spinner-border", "spinner-border-sm", "ml-2");
+            spinner.setAttribute("role", "status");
+            spinner.setAttribute("aria-hidden", "true");
+
+            submitBtn.appendChild(spinner);
+            submitBtn.disabled = true;
+        });
+    </script>
 }

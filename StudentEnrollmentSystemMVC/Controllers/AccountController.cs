@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using StudentEnrollmentSystemMVC.Models;
 using StudentEnrollmentSystemMVC.Models.ViewModels;
 
 namespace StudentEnrollmentSystemMVC.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : Controller
     {
 
@@ -92,7 +94,8 @@ namespace StudentEnrollmentSystemMVC.Controllers
 
 
 
-        public IActionResult ForbiddenPage()
+        [Route("Error/AccessDenied")]
+        public IActionResult AccessDenied()
         {
             return View();
         }

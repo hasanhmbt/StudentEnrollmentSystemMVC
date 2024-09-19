@@ -88,14 +88,14 @@ public class RolesController : Controller
 
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Delete(RolesViewModel model)
+
+    public async Task<IActionResult> Delete(string Id)
     {
 
 
         if (ModelState.IsValid)
         {
-            var role = await _roleManager.FindByIdAsync(model.Id);
+            var role = await _roleManager.FindByIdAsync(Id);
             await _roleManager.DeleteAsync(role);
         }
         return RedirectToAction(nameof(Index));
