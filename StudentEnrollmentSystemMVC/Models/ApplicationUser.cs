@@ -5,4 +5,5 @@ namespace StudentEnrollmentSystemMVC.Models;
 public class ApplicationUser : IdentityUser
 {
 
+
 }

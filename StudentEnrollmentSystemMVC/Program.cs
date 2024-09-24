@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StudentEnrollmentSystemMVC.Data;
 using StudentEnrollmentSystemMVC.Models;
+using StudentEnrollmentSystemMVC.Tools;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,28 +17,30 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppIdentityDbContext>()
     .AddDefaultTokenProviders();
 
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
-
-
     options.Password.RequireDigit = true;
-    options.Password.RequiredLength = 8;
+    options.Password.RequiredLength = 6;
     options.Password.RequireLowercase = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
 
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
-    options.Lockout.MaxFailedAccessAttempts = 2;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.AllowedForNewUsers = true;
 
     options.User.RequireUniqueEmail = true;
 
 
-
-
 });
 
 
+
+//Email configure 
+Helpers.Configure(builder.Configuration.GetSection("SmtpSettings").Get<SmtpSettings>());
+
+// Access denied page
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.AccessDeniedPath = "/Error/AccessDenied";

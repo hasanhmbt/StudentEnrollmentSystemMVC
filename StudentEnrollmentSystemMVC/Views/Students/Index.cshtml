@@ -2,11 +2,11 @@
 
 @{
     ViewBag.Title = "Students";
+    var currentPage = ViewBag.CurrentPage ?? 1;
+    var totalPages = ViewBag.TotalPages ?? 1;
 }
 
-
 <div class="container-fluid">
-
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Students</h6>
@@ -14,6 +14,12 @@
         </div>
 
         <div class="card-body">
+            <!-- Search Form -->
+            <form method="get" asp-action="Index" class="form-inline mb-3">
+                <input type="text" name="searchQuery" value="@ViewBag.CurrentSearch" placeholder="Search by name or email" class="form-control mr-2">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -60,32 +66,40 @@
                         }
                     </tbody>
                 </table>
+
+                <!-- Pagination Controls -->
+                <nav>
+                    <ul class="pagination">
+                        @if (currentPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" 
+                                asp-action="Index" 
+                                asp-route-searchQuery="@ViewBag.CurrentSearch" 
+                                asp-route-pageNumber="@(currentPage - 1)">Previous</a>
+                            </li>
+                        }
+                        @for (var i = 1; i <= totalPages; i++)
+                        {
+                            <li class="page-item @(i == currentPage ? "active" : "")">
+                                <a class="page-link" 
+                                asp-action="Index" 
+                                asp-route-searchQuery="@ViewBag.CurrentSearch" 
+                                asp-route-pageNumber="@i">@i</a>
+                            </li>
+                        }
+                        @if (currentPage < totalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" 
+                                asp-action="Index" 
+                                asp-route-searchQuery="@ViewBag.CurrentSearch" 
+                                asp-route-pageNumber="@(currentPage + 1)">Next</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
-
 </div>
-
-@section css {
-    <!-- Custom styles for this page -->
-    <link href="~/bootstrapadmin/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-}
-
-@section js {
-    <!-- Page level plugins -->
-    <script src="~/bootstrapadmin/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/bootstrapadmin/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable({
-                "paging": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "responsive": true
-            });
-        });
-    </script>
-}

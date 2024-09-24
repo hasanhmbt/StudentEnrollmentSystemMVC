@@ -91,8 +91,6 @@ public class RolesController : Controller
 
     public async Task<IActionResult> Delete(string Id)
     {
-
-
         if (ModelState.IsValid)
         {
             var role = await _roleManager.FindByIdAsync(Id);
