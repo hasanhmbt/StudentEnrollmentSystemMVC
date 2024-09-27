@@ -70,7 +70,7 @@
                     <i class="fa-duotone fa-solid fa-graduation-cap"></i>
                     <span>Students</span>
                 </a>
-            </li> 
+            </li>
             <li class="nav-item">
                 <a asp-controller="Course" asp-action="Index" class="nav-link collapsed">
                     <i class="fa-solid fa-book"></i>
@@ -89,11 +89,11 @@
                     <span>User roles</span>
                 </a>
             </li>
-          
+
 
 
         </ul>
-       
+
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -123,6 +123,8 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         @if (User.Identity.IsAuthenticated)
+
+
 
                         {
                             <!-- Nav Item - User Information -->
@@ -159,7 +161,11 @@
                             </li>
                         }
 
+
+
                         else
+
+
 
                         {
                             <!-- Nav Item - Login Button -->
@@ -171,11 +177,12 @@
                             </li>
                         }
                     </ul>
-                    <!-- End of Topbar -->
+                </nav>
+                <!-- End of Topbar -->
+
+
 
                 <main>@RenderBody()</main>
-
-               
             </div>
         </div>
     </div>
