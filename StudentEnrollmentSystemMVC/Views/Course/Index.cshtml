@@ -16,7 +16,6 @@
                         <tr>
                             <th>Title</th>
                             <th>Credits</th>
-                            <th>Enrolled Students</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -26,7 +25,7 @@
                             <tr>
                                 <td>@course.Title</td>
                                 <td>@course.Credits</td>
-                                <td>
+                                @* <td>
                                     @if (course.Enrollments != null && course.Enrollments.Any())
                                     {
                                         @foreach (var enrollment in course.Enrollments)
@@ -38,7 +37,7 @@
                                     {
                                         <span>No students enrolled</span>
                                     }
-                                </td>
+                                </td> *@
                                 <td class="text-center">
                                     <a asp-action="Edit" asp-route-id="@course.Id" class="btn btn-sm btn-primary" aria-label="Edit @course.Title">
                                         <i class="fas fa-edit"></i>

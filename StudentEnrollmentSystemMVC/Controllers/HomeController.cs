@@ -9,26 +9,28 @@ namespace StudentEnrollmentSystemMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly SchoolContext _context;
+        private readonly ILogger<HomeController> _logger;
+        public readonly AppIdentityDbContext _identityDbContext;
 
-        public HomeController(ILogger<HomeController> logger, SchoolContext context)
+        public HomeController(ILogger<HomeController> logger, SchoolContext context, AppIdentityDbContext identityDbContext)
         {
             _logger = logger;
             _context = context;
+            _identityDbContext = identityDbContext;
         }
 
         public IActionResult Index()
         {
-            int totalStudents = _context.Students.Count();
-            int totalCourses = _context.Courses.Count();
+
+
 
             var dashboardCards = new List<DashboardCardViewModel>
             {
                 new DashboardCardViewModel
                 {
                     Title = "Total Students",
-                    Value = totalStudents.ToString(),
+                    Value = _context.Students.Count().ToString(),
                     IconClass = "fas fa-user-graduate",
                     BorderColor = "danger",
                     ValueColor = "text-gray-800"
@@ -36,16 +38,16 @@ namespace StudentEnrollmentSystemMVC.Controllers
                 new DashboardCardViewModel
                 {
                     Title = "Total Courses",
-                    Value = totalCourses.ToString(),
+                    Value = _context.Courses.Count().ToString(),
                     IconClass = "fas fa-calendar",
                     BorderColor = "primary",
                     ValueColor = "text-gray-800"
                 },
                 new DashboardCardViewModel
                 {
-                    Title = "Earnings (Annual)",
-                    Value = "$215,000",
-                    IconClass = "fas fa-dollar-sign",
+                    Title = "Total Users",
+                    Value =  _identityDbContext.Users.Count().ToString(),
+                    IconClass = "fa-solid fa-user",
                     BorderColor = "success",
                     ValueColor = "text-gray-800"
                 },
@@ -59,6 +61,7 @@ namespace StudentEnrollmentSystemMVC.Controllers
                     BorderColor = "info",
                     ValueColor = "text-gray-800"
                 }
+
 
             };
 

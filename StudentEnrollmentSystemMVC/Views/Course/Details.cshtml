@@ -20,13 +20,19 @@
                 <table class="table table-bordered table-hover mt-3">
                     <thead class="thead-light">
                         <tr>
+                            <th>#</th>
                             <th>Student Name</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @{
+                            int rowNum = 0;
+                        }
                         @foreach (var enrollment in Model.Enrollments)
                         {
+                            rowNum++;
                             <tr>
+                                <td>@rowNum</td>
                                 <td>@enrollment.Student.Name</td>
                             </tr>
                         }
