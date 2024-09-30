@@ -5,7 +5,6 @@ using StudentEnrollmentSystemMVC.Models;
 using StudentEnrollmentSystemMVC.Models.ViewModels;
 using StudentEnrollmentSystemMVC.Tools;
 
-
 namespace StudentEnrollmentSystemMVC.Controllers
 {
     [AllowAnonymous]
@@ -21,8 +20,6 @@ namespace StudentEnrollmentSystemMVC.Controllers
             _signInManager = signInManager;
         }
 
-
-
         public IActionResult Login(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -31,32 +28,32 @@ namespace StudentEnrollmentSystemMVC.Controllers
         }
 
         [HttpPost]
-
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, loginViewModel.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
+                if (user != null)
                 {
-                    return RedirectToAction("Index", "Home");
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName, loginViewModel.Password, loginViewModel.RememberMe, lockoutOnFailure: false);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(loginViewModel);
-                }
+
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(loginViewModel);
             }
             return View(loginViewModel);
         }
-
 
         public IActionResult Register()
         {
             return View();
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -79,10 +76,6 @@ namespace StudentEnrollmentSystemMVC.Controllers
             return View(registerViewModel);
         }
 
-
-
-
-
         public IActionResult ForgotPassword()
         {
             return View();
@@ -99,6 +92,11 @@ namespace StudentEnrollmentSystemMVC.Controllers
 
             var user = await _userManager.FindByEmailAsync(model.Email);
 
+            if (user == null)
+            {
+                return RedirectToAction("ForgotPasswordConfirmation");
+            }
+
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme);
 
@@ -107,15 +105,10 @@ namespace StudentEnrollmentSystemMVC.Controllers
             return RedirectToAction("ForgotPasswordConfirmation");
         }
 
-
-
-
         public IActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
-
-
 
         [AllowAnonymous]
         public IActionResult ResetPassword(string token, string email)
@@ -138,6 +131,10 @@ namespace StudentEnrollmentSystemMVC.Controllers
             }
 
             var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return RedirectToAction("ResetPasswordConfirmation");
+            }
 
             var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
             if (result.Succeeded)
@@ -150,7 +147,7 @@ namespace StudentEnrollmentSystemMVC.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
 
-            return View();
+            return View(model);
         }
 
         public IActionResult ResetPasswordConfirmation()
@@ -158,42 +155,17 @@ namespace StudentEnrollmentSystemMVC.Controllers
             return View();
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
         }
 
-
         [Route("Error/AccessDenied")]
         public IActionResult AccessDenied()
         {
             return View();
         }
-
-
-
-
-
-
-
-
-
-
 
     }
 }

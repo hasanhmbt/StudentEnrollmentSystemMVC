@@ -1,0 +1,31 @@
+﻿@model StudentEnrollmentSystemMVC.Models.ViewModels.ProfileViewModel
+
+@{
+    ViewBag.Title = "My Profile";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                @if (!string.IsNullOrEmpty(Model.ProfilePicturePath))
+                {
+                    <img src="@Model.ProfilePicturePath" class="card-img" alt="Profile Picture">
+                }
+                else
+                {
+                    <img src="~/BootstrapAdmin/img/undraw_profile.svg" class="card-img" alt="Default Profile Picture">
+                }
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.UserName</h5>
+                    <p class="card-text"><strong>Email:</strong> @Model.Email</p>
+                    <a href="@Url.Action("Edit", "Profile")" class="btn btn-primary">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
