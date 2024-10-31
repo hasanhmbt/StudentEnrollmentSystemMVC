@@ -1,4 +1,4 @@
-// HomeController.cs
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudentEnrollmentSystemMVC.Data;
 using StudentEnrollmentSystemMVC.Models;
@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 namespace StudentEnrollmentSystemMVC.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly SchoolContext _context;
@@ -65,15 +66,7 @@ namespace StudentEnrollmentSystemMVC.Controllers
 
             };
 
-
-
             ViewData["DashboardCards"] = dashboardCards;
-
-
-
-
-
-
 
             #region Charts
 
